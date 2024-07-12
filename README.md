@@ -28,4 +28,5 @@ python dash_test.py
 ```
 You should see an address on your local computer, most likely
 > http://127.0.0.1:8050/
+
 open it in your favorite browser and enjoy the dashboard!
