@@ -1,19 +1,52 @@
 from dash import Dash, html, dcc, callback, Output, Input
 import plotly.express as px
 import pandas as pd
+import dash_bootstrap_components as dbc
 
 import plots as pt
 
-app = Dash()
+app = Dash(external_stylesheets=[dbc.themes.SLATE])
 
-app.layout = [
-    html.H1(children='People are dumb', style={'text-align':'center'}),
-    dcc.Dropdown(options=['Sort by sale price', 'Sort by rent price'], value='Sort by sale price', id='controls-and-radio-item'),
-    dcc.Dropdown([4,5,6]),
-    dcc.Graph(id='region_price', figure=pt.fig_region_price,style={'width':'90vw'}),
-    dcc.Graph(id='province_price', figure=pt.fig_province_price,style={'width':'90vw'}),
-    dcc.Graph(id='district_price', figure=pt.fig_district_price,style={'width':'90vw'})
-]
+# app.layout = [
+#     html.H1(children='People are dumb', style={'text-align':'center'}),
+#     dcc.Dropdown(options=['Sort by sale price', 'Sort by rent price'], value='Sort by sale price', id='controls-and-radio-item'),
+#     dcc.Dropdown([4,5,6]),
+#     dcc.Graph(id='region_price', figure=pt.fig_region_price,style={'width':'90vw'}),
+#     dcc.Graph(id='province_price', figure=pt.fig_province_price,style={'width':'90vw'}),
+#     dcc.Graph(id='district_price', figure=pt.fig_district_price,style={'width':'90vw'})
+# ]
+app.layout = dbc.Container(
+    [
+        dbc.Row([html.H1(children='People are dumb', style={'text-align':'center'})]),
+        dbc.Row(
+            [
+                dbc.Col(
+                    html.Div("Sort by :")
+                ),
+                dbc.Col(
+                    dcc.Dropdown(options=['Sale price', 'Rent price'], value='Sale price', id='controls-and-radio-item')
+                )
+            ]
+        ),
+        dbc.Row(
+            [
+                dbc.Col(
+                    dcc.Graph(id='region_price', figure=pt.fig_region_price,style={'height':'60vh'}),
+                    width = 4
+                ),
+                dbc.Col(
+                    dcc.Graph(id='province_price', figure=pt.fig_province_price,style={'height':'60vh'}),
+                    width = 4
+                ),
+                dbc.Col(
+                    dcc.Graph(id='district_price', figure=pt.fig_district_price,style={'height':'60vh'}),
+                    width = 4
+                )
+            ]
+        )
+    ],
+    fluid=True
+)
 
 @callback(
     Output(component_id='region_price', component_property='figure'),
@@ -22,7 +55,7 @@ app.layout = [
     Input(component_id='controls-and-radio-item', component_property='value')
 )
 def update_graph(col_chosen):
-    if 'sale' in col_chosen:
+    if 'Sale' in col_chosen:
         arrayR = pt.price_sale_region['Region']
         arrayP = pt.price_sale_province['Province']
         arrayD = pt.price_sale_district['District']
