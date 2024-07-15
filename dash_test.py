@@ -17,7 +17,8 @@ app = Dash(external_stylesheets=[dbc.themes.SLATE])
 # ]
 app.layout = dbc.Container(
     [
-        dbc.Row([html.H1(children='People are dumb', style={'text-align':'center'})]),
+        dbc.Row([html.H1(children='Analysis of the belgian house market', style={'text-align':'center'})]),
+        dbc.Row([html.H2(children='People cannot encode on Immoweb', style={'text-align':'center'})]),
         dbc.Row(
             [
                 dbc.Col(
@@ -43,6 +44,20 @@ app.layout = dbc.Container(
                     width = 4
                 )
             ]
+        ),
+        dbc.Row(
+            [
+                dbc.Col(
+                    dcc.Graph(figure=pt.fig_sale_municipalities, style={'height' :'100vh'}))]),
+        dbc.Row(
+            [
+                dbc.Col(
+                    dcc.Graph(figure=pt.fig_rent_municipalities, style={'height' :'100vh'})
+                )
+            ]
+        ),
+        dbc.Row(
+            dcc.Graph(id='url_price',figure=pt.fig_url,style={'height' :'100vh'})
         )
     ],
     fluid=True
